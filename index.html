@@ -23,10 +23,12 @@
 <div id="mapid" style="width: 900px; height: 600px;"></div>
 
 
+<!--script src="datos_2014.js" type="text/javascript"></script-->
+<script src="agosto_2014.js" type="text/javascript"></script>
 
 <script>
 
-	var mymap = L.map('mapid').setView([19.4326, -99.1332], 13);
+	var mymap = L.map('mapid').setView([19.44, -99.13], 13);
 
 	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 		maxZoom: 18,
@@ -37,6 +39,37 @@
 		tileSize: 512,
 		zoomOffset: -1
 	}).addTo(mymap);
+
+
+
+	function onEachFeature(feature, layer) {
+		var popupContent = "<p>Categoria delito:</p>";
+
+		if (feature.properties && feature.properties.delito) {
+			popupContent += feature.properties.delito;
+		}
+
+		layer.bindPopup(popupContent);
+	}
+
+
+var geojsonFeature = {
+    "type": "Feature",
+    "properties": {
+        "name": "Coors Field",
+        "amenity": "Baseball Stadium",
+        "popupContent": "This is where the Rockies play!"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-99.131557, 19.3627469998]
+    }
+};
+
+	L.geoJSON(crime_mexico,{
+	onEachFeature: onEachFeature
+	}
+	).addTo(mymap);
 
 
 
@@ -57,6 +90,3 @@
 
 </body>
 </html>
-
-
-
